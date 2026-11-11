@@ -194,17 +194,18 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
 .video small { display: block; margin-top: 4px; font-size: 14px; color: var(--cielo); }
 
 /* ---------- MESSAGGI ---------- */
-.messaggi .scorri { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 32px -22px 0; padding: 4px 22px 10px; scrollbar-width: none; }
-.messaggi .scorri::-webkit-scrollbar { display: none; }
-.biglietto { flex: 0 0 80%; scroll-snap-align: start; border: 1.5px solid var(--blu); border-radius: 20px; padding: 22px 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 26px; min-height: 250px; background: var(--bianco); }
+.mazzo { position: relative; height: 290px; max-width: 420px; margin-top: 40px; }
+.biglietto { position: absolute; inset: 0; border: 1.5px solid var(--blu); border-radius: 22px; padding: 24px 22px; display: flex; flex-direction: column; justify-content: space-between; gap: 22px; background: var(--bianco); box-shadow: 0 20px 40px -24px rgba(7,27,95,0.45); transition: transform 0.55s var(--ease), opacity 0.4s; touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; }
+.biglietto.trascina { transition: none; cursor: grabbing; }
 .biglietto:nth-child(3n+2) { background: var(--blu); color: var(--bianco); }
-.biglietto:nth-child(3n+3) { background: var(--ghiaccio); border-color: var(--ghiaccio); }
-.biglietto blockquote { font-family: var(--serif); font-size: 24px; line-height: 1.22; }
+.biglietto:nth-child(3n+3) { background: var(--ghiaccio); }
+.biglietto blockquote { font-family: var(--serif); font-size: 25px; line-height: 1.22; }
 .biglietto .da { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
 .biglietto .da i { width: 34px; height: 34px; border-radius: 50%; background: currentColor; opacity: 0.12; }
-.puntini { display: flex; gap: 6px; margin-top: 14px; }
-.puntini i { width: 7px; height: 7px; border-radius: 50%; background: var(--cielo); transition: width 0.3s var(--ease), background 0.3s; }
-.puntini i.on { width: 22px; border-radius: 4px; background: var(--blu); }
+.mazzo-ctrl { display: flex; align-items: center; gap: 16px; margin-top: 26px; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--grigio); }
+.tondo { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid var(--blu); display: flex; align-items: center; justify-content: center; transition: transform 0.15s; }
+.tondo:active { transform: scale(0.9); }
+.tondo svg { width: 18px; height: 18px; stroke: var(--blu); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ---------- LETTERA IN BUSTA ---------- */
 .lettera { background: var(--ghiaccio); }
@@ -267,6 +268,32 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
 #gratta-cv { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; transition: opacity 0.6s; }
 .grattato #gratta-cv { opacity: 0; pointer-events: none; }
 
+/* ---------- ENTRATE ---------- */
+.js h2.parole .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.06em; margin-bottom: -0.06em; }
+.js h2.parole .w > span { display: inline-block; transform: translateY(105%); transition: transform 0.8s var(--ease); transition-delay: calc(var(--i) * 70ms); }
+.js .visto h2.parole .w > span { transform: none; }
+.js .entra > * { opacity: 0; transform: translateY(28px) scale(0.97); transition: opacity 0.6s, transform 0.8s var(--ease); transition-delay: calc(var(--i, 0) * 80ms + 150ms); }
+.js .visto .entra > * { opacity: 1; transform: none; }
+.js .passione .fronte svg [data-disegna] { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s var(--ease); transition-delay: calc(var(--i, 0) * 120ms + 400ms); }
+.js .visto .passione .fronte svg [data-disegna] { stroke-dashoffset: 0; }
+.cavalli h2 { will-change: transform; }
+.cavalli .foto2 .slot:first-child { transform: translateY(var(--py1, 0)) rotate(-1.5deg); }
+.cavalli .foto2 .slot:last-child { transform: translateY(var(--py2, 0)) rotate(2deg); }
+
+/* ---------- SECONDI CHE SCATTANO ---------- */
+.conto strong.tic { animation: tic 0.45s var(--ease); }
+@keyframes tic { from { transform: translateY(-35%); opacity: 0.2; } }
+
+/* ---------- SCINTILLE ---------- */
+.scintilla { position: absolute; left: 50%; top: 45%; width: 10px; height: 10px; pointer-events: none; z-index: 3; background: var(--oro); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: scintilla 1.1s var(--ease) forwards; }
+@keyframes scintilla { from { transform: translate(-50%, -50%) scale(0.3) rotate(0); opacity: 1; } to { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.4) rotate(160deg); opacity: 0; } }
+
+/* ---------- VIAGGIO NEGLI ANNI ---------- */
+.viaggio { margin-top: 18px; display: inline-flex; align-items: center; gap: 10px; border: 1.5px solid rgba(255,255,255,0.5); border-radius: 40px; padding: 11px 20px 11px 14px; font-weight: 700; font-size: 15px; color: var(--bianco); }
+.viaggio svg { width: 18px; height: 18px; fill: var(--bianco); }
+#anno.cambia { animation: cambia 0.5s var(--ease); }
+@keyframes cambia { 40% { transform: scale(1.06); color: var(--cielo); } }
+
 /* ---------- CANDELINE ---------- */
 .finale { background: var(--blu); color: var(--bianco); overflow: hidden; padding: 76px 0 calc(env(safe-area-inset-bottom) + 50px); text-align: center; }
 #coriandoli { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
@@ -297,8 +324,6 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
   .bento { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: 14px; }
   .video { aspect-ratio: 16 / 9; padding: 40px; }
   .video strong { font-size: 38px; }
-  .messaggi .scorri { margin: 40px 0 0; padding: 4px 0 10px; }
-  .biglietto { flex-basis: 38%; }
   .quadrante { grid-template-columns: 1fr 1fr; align-items: end; gap: 40px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -368,7 +393,7 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
 <section class="altre">
   <div class="wrap">
     <h2>E poi tutto quello che la porta all'aria aperta.</h2>
-    <div class="griglia">
+    <div class="griglia entra">
       <button class="passione" type="button" aria-pressed="false">
         <span class="giro">
           <span class="faccia fronte">
@@ -426,6 +451,7 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
           <label for="cursore" class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Scegli una tappa</label>
           <input id="cursore" type="range" min="0" max="5" step="1" value="0">
           <div class="tacche" id="tacche"></div>
+          <button type="button" class="viaggio" id="viaggio"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg><span>Fai partire il viaggio</span></button>
         </div>
       </div>
     </div>
@@ -435,7 +461,7 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
 <section class="ricordi">
   <div class="wrap">
     <h2>Trent'anni sono 10.957 giorni. Eccone qualcuno.</h2>
-    <div class="bento" id="bento"></div>
+    <div class="bento entra" id="bento"></div>
     <p class="suggerimento"><svg viewBox="0 0 24 24"><path d="M9 11V5a2 2 0 0 1 4 0v5l4.5.9a2 2 0 0 1 1.6 2.3L18 20H10l-4-5a1.8 1.8 0 0 1 2.6-2.4L9 13"/></svg>Tocca una foto per ingrandirla</p>
   </div>
 </section>
@@ -457,13 +483,18 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
   <div class="wrap">
     <span class="prova">Messaggi di prova</span>
     <h2>Chi ti vuole bene ha qualcosa da dirti.</h2>
-    <div class="scorri" id="scorri">
+    <div class="mazzo" id="mazzo">
       <article class="biglietto"><blockquote>Qui il messaggio di una persona cara, scritto con le sue parole.</blockquote><div class="da"><i></i>Nome di chi scrive</div></article>
       <article class="biglietto"><blockquote>Un augurio, un ricordo o una battuta che solo voi capite.</blockquote><div class="da"><i></i>Nome di chi scrive</div></article>
       <article class="biglietto"><blockquote>Due righe bastano: l'importante è che sia sincero.</blockquote><div class="da"><i></i>Nome di chi scrive</div></article>
       <article class="biglietto"><blockquote>Si possono aggiungere tutti i messaggi che vuoi.</blockquote><div class="da"><i></i>Nome di chi scrive</div></article>
     </div>
-    <div class="puntini" id="puntini" aria-hidden="true"></div>
+    <div class="mazzo-ctrl">
+      <button type="button" class="tondo" id="m-prec" aria-label="Messaggio precedente"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <span id="m-conta" aria-live="polite">1 di 4</span>
+      <button type="button" class="tondo" id="m-succ" aria-label="Messaggio successivo"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <p class="suggerimento">Trascina un bigliettino di lato per leggere il prossimo</p>
   </div>
 </section>
 
@@ -710,6 +741,7 @@ var TAPPE = [
     tapEl.innerHTML = (tp.prova ? '<span class="prova">Testo di prova</span><br>' : '') + tp.testo;
     Array.prototype.forEach.call(tac.children, function (b, j) { b.setAttribute('aria-current', j === i); });
     var da = +annoEl.textContent, a = tp.anno; cancelAnimationFrame(animAnno);
+    if (!reduce && da !== a) { annoEl.classList.remove('cambia'); void annoEl.offsetWidth; annoEl.classList.add('cambia'); }
     if (reduce || da === a) { annoEl.textContent = a; return; }
     var t0 = null; (function step(ts) { if (!t0) t0 = ts; var p = Math.min((ts - t0) / 450, 1); annoEl.textContent = Math.round(da + (a - da) * (1 - Math.pow(1 - p, 3))); if (p < 1) animAnno = requestAnimationFrame(step); })(performance.now());
   }
@@ -763,11 +795,31 @@ var TAPPE = [
   osize(); window.addEventListener('resize', osize);
   if (!reduce) { (function ol() { if (ovis) { ot += 0.012; odraw(); } requestAnimationFrame(ol); })(); onView(ov, function (v) { ovis = v; }); }
 
-  /* ---- MESSAGGI: puntini ---- */
-  var sc = document.getElementById('scorri'), pu = document.getElementById('puntini');
-  Array.prototype.forEach.call(sc.children, function () { pu.appendChild(document.createElement('i')); });
-  function punt() { var w = sc.children[0].getBoundingClientRect().width + 12, i = Math.round(sc.scrollLeft / w); Array.prototype.forEach.call(pu.children, function (p, j) { p.classList.toggle('on', j === Math.min(i, pu.children.length - 1)); }); }
-  sc.addEventListener('scroll', punt, { passive: true }); punt();
+  /* ---- MESSAGGI: mazzo da sfogliare ---- */
+  var mazzo = document.getElementById('mazzo'), carte = Array.from(mazzo.children), ordine = carte.map(function (_, i) { return i; }), mConta = document.getElementById('m-conta');
+  var ROT = [-2.5, 2, -1.2, 2.8, -2];
+  function disponi() {
+    ordine.forEach(function (ci, k) {
+      var c = carte[ci]; c.style.zIndex = carte.length - k;
+      c.style.transform = 'translateY(' + (k * 12) + 'px) scale(' + (1 - k * 0.045) + ') rotate(' + (k === 0 ? 0 : ROT[ci % ROT.length]) + 'deg)';
+      c.style.opacity = k > 3 ? 0 : 1; c.setAttribute('aria-hidden', k !== 0);
+    });
+    mConta.textContent = (ordine[0] + 1) + ' di ' + carte.length;
+  }
+  function vola(dir) {
+    var c = carte[ordine[0]];
+    c.style.transform = 'translateX(' + (dir * 130) + '%) rotate(' + (dir * 22) + 'deg)'; c.style.opacity = 0;
+    setTimeout(function () { ordine.push(ordine.shift()); disponi(); }, reduce ? 0 : 320);
+  }
+  function indietro() { ordine.unshift(ordine.pop()); var c = carte[ordine[0]]; c.style.transition = 'none'; c.style.transform = 'translateX(-130%) rotate(-22deg)'; c.offsetWidth; c.style.transition = ''; disponi(); }
+  document.getElementById('m-succ').addEventListener('click', function () { vola(1); });
+  document.getElementById('m-prec').addEventListener('click', indietro);
+  var mx0 = null, mdx = 0;
+  mazzo.addEventListener('pointerdown', function (e) { var c = carte[ordine[0]]; if (!c.contains(e.target)) return; mx0 = e.clientX; mdx = 0; c.classList.add('trascina'); try { c.setPointerCapture(e.pointerId); } catch (_) {} });
+  mazzo.addEventListener('pointermove', function (e) { if (mx0 === null) return; mdx = e.clientX - mx0; carte[ordine[0]].style.transform = 'translateX(' + mdx + 'px) rotate(' + (mdx / 18) + 'deg)'; });
+  function rilascia() { if (mx0 === null) return; var c = carte[ordine[0]]; c.classList.remove('trascina'); mx0 = null; if (Math.abs(mdx) > 70) vola(mdx > 0 ? 1 : -1); else disponi(); }
+  mazzo.addEventListener('pointerup', rilascia); mazzo.addEventListener('pointercancel', rilascia);
+  disponi();
 
   /* ---- BUSTA ---- */
   var lett = document.getElementById('lettera'), busta = document.getElementById('busta');
@@ -777,6 +829,12 @@ var TAPPE = [
     setTimeout(function () { box.classList.add('busta-fuori'); }, 1350);
     setTimeout(function () { lett.classList.add('letta'); scriviLettera(); }, 2600);
   });
+
+  function festa(box) {
+    if (navigator.vibrate) try { navigator.vibrate([30, 40, 60]); } catch (_) {}
+    if (reduce) return;
+    for (var i = 0; i < 22; i++) { var s = document.createElement('span'); s.className = 'scintilla'; var a = Math.random() * 6.28, d = 70 + Math.random() * 120; s.style.setProperty('--dx', Math.cos(a) * d + 'px'); s.style.setProperty('--dy', Math.sin(a) * d + 'px'); s.style.animationDelay = (Math.random() * 0.25) + 's'; if (i % 3 === 0) s.style.background = '#A8C2FF'; box.appendChild(s); setTimeout(function (el) { el.remove(); }.bind(null, s), 1600); }
+  }
 
   /* ---- FRECCIA GIÙ ---- */
   document.getElementById('giu').addEventListener('click', function () { var n = hero.nextElementSibling; window.scrollTo({ top: n.offsetTop, behavior: reduce ? 'auto' : 'smooth' }); });
@@ -807,7 +865,7 @@ var TAPPE = [
   function controlla() {
     var d = gx.getImageData(0, 0, gc.width, gc.height).data, vuoti = 0, tot = 0;
     for (var i = 3; i < d.length; i += 64) { tot++; if (d[i] === 0) vuoti++; }
-    if (vuoti / tot > 0.5 && !gb.classList.contains('grattato')) gb.classList.add('grattato');
+    if (vuoti / tot > 0.5 && !gb.classList.contains('grattato')) { gb.classList.add('grattato'); festa(gb); }
   }
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(gsize);
   window.addEventListener('resize', function () { clearTimeout(gb._t); gb._t = setTimeout(function () { if (Math.abs(gc.clientWidth - gw) > 20) gsize(); }, 200); });
@@ -816,6 +874,7 @@ var TAPPE = [
   var APERTURA = new Date(2036, 10, 24, 0, 0, 0);
   var cG = document.getElementById('c-giorni'), cO = document.getElementById('c-ore'), cM = document.getElementById('c-min'), cS = document.getElementById('c-sec');
   var cBtn = document.getElementById('c-btn'), cNota = document.getElementById('c-nota'), cTesto = document.getElementById('capsula-testo'), lucc = document.querySelector('.lucchetto');
+  function metti(el, v) { if (el.textContent === v) return; el.textContent = v; if (!reduce) { el.classList.remove('tic'); void el.offsetWidth; el.classList.add('tic'); } }
   function due(n) { return (n < 10 ? '0' : '') + n; }
   var chiusa = true;
   cBtn.removeAttribute('disabled');
@@ -823,7 +882,7 @@ var TAPPE = [
     var ms = APERTURA - new Date();
     if (ms <= 0) { chiusa = false; cG.textContent = '0'; cO.textContent = cM.textContent = cS.textContent = '00'; cBtn.textContent = 'Apri la capsula'; cBtn.removeAttribute('aria-disabled'); return false; }
     var s = Math.floor(ms / 1000);
-    cG.textContent = Math.floor(s / 86400).toLocaleString('it-IT'); cO.textContent = due(Math.floor(s % 86400 / 3600)); cM.textContent = due(Math.floor(s % 3600 / 60)); cS.textContent = due(s % 60);
+    metti(cG, Math.floor(s / 86400).toLocaleString('it-IT')); metti(cO, due(Math.floor(s % 86400 / 3600))); metti(cM, due(Math.floor(s % 3600 / 60))); metti(cS, due(s % 60));
     return true;
   }
   cBtn.setAttribute('aria-disabled', 'true');
@@ -847,6 +906,40 @@ var TAPPE = [
     })();
   }
   testoL.addEventListener('click', function () { if (!saltaL) return; parL.forEach(function (cs) { cs.forEach(function (c) { c.classList.add('on'); }); }); firmaL.style.opacity = 1; var s = saltaL; saltaL = null; parL = []; s(); });
+
+  /* ---- ENTRATE E PARALLASSE ---- */
+  document.querySelectorAll('section h2').forEach(function (h2) {
+    if (h2.closest('.cavalli') || h2.id) return;
+    var parole = h2.textContent.trim().split(/\s+/); h2.textContent = ''; h2.classList.add('parole');
+    parole.forEach(function (p, i) { var w = document.createElement('span'); w.className = 'w'; var s = document.createElement('span'); s.textContent = p; s.style.setProperty('--i', i); w.appendChild(s); h2.appendChild(w); h2.appendChild(document.createTextNode(' ')); });
+  });
+  document.querySelectorAll('.entra').forEach(function (g) { Array.from(g.children).forEach(function (c, i) { c.style.setProperty('--i', i); }); });
+  document.querySelectorAll('.passione .fronte svg').forEach(function (s, j) { s.querySelectorAll('path, circle, rect').forEach(function (el) { if (el.getAttribute('stroke-dasharray')) return; el.setAttribute('pathLength', '1'); el.setAttribute('data-disegna', ''); el.style.setProperty('--i', j); }); });
+  var sezioni = document.querySelectorAll('section');
+  if ('IntersectionObserver' in window && !reduce) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('visto'); io.unobserve(e.target); } }); }, { threshold: 0.18 });
+    sezioni.forEach(function (s) { io.observe(s); });
+  } else sezioni.forEach(function (s) { s.classList.add('visto'); });
+  var cavH = cav.querySelector('h2'), fotoBox = cav.querySelector('.foto2'), ticking = false;
+  function parallasse() {
+    ticking = false; var r = cav.getBoundingClientRect(), vh = window.innerHeight;
+    if (r.bottom < 0 || r.top > vh) return;
+    var p = (vh - r.top) / (vh + r.height);
+    cavH.style.transform = 'translateX(' + ((0.5 - p) * 26) + '%)';
+    fotoBox.style.setProperty('--py1', ((0.5 - p) * 60) + 'px'); fotoBox.style.setProperty('--py2', ((p - 0.5) * 60) + 'px');
+  }
+  if (!reduce) { window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(parallasse); } }, { passive: true }); parallasse(); }
+
+  /* ---- VIAGGIO NEGLI ANNI ---- */
+  var viaggioBtn = document.getElementById('viaggio'), viaggioT = null;
+  var icoPlay = '<path d="M7 4l13 8-13 8z"/>', icoPausa = '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>';
+  function fermaViaggio() { clearInterval(viaggioT); viaggioT = null; viaggioBtn.querySelector('span').textContent = 'Fai partire il viaggio'; viaggioBtn.querySelector('svg').innerHTML = icoPlay; }
+  viaggioBtn.addEventListener('click', function () {
+    if (viaggioT) { fermaViaggio(); return; }
+    cur.value = 0; mostra(); viaggioBtn.querySelector('span').textContent = 'Ferma'; viaggioBtn.querySelector('svg').innerHTML = icoPausa;
+    viaggioT = setInterval(function () { if (+cur.value >= TAPPE.length - 1) { fermaViaggio(); return; } cur.value = +cur.value + 1; mostra(); }, 2600);
+  });
+  cur.addEventListener('pointerdown', function () { if (viaggioT) fermaViaggio(); });
 
   /* ---- CANDELINE ---- */
   var btn = document.getElementById('spegni'), torta = document.getElementById('torta'), tit = document.getElementById('finale-titolo'), txt = document.getElementById('finale-testo');
