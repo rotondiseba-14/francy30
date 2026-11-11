@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0B36D6">
-<title>Francy 30</title>
+<title>Franci 30</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -60,9 +60,9 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--cielo); out
 .data { font-size: 15px; font-weight: 500; opacity: 0.9; }
 .titolo { line-height: 0.82; }
 .titolo .auguri { display: block; font-family: var(--serif); font-style: italic; font-size: clamp(30px, 8.5vw, 56px); line-height: 1; margin-bottom: 10px; }
-.titolo .nome { display: flex; font-weight: 900; font-stretch: 125%; font-size: clamp(76px, 23vw, 190px); letter-spacing: -0.045em; margin-left: -0.04em; overflow: hidden; padding-bottom: 0.04em; }
+.titolo .nome { display: flex; font-weight: 900; font-stretch: 125%; font-size: clamp(62px, 18.5vw, 150px); letter-spacing: -0.045em; margin-left: -0.04em; overflow: hidden; padding-bottom: 0.04em; }
 .titolo .nome i { font-style: normal; display: inline-block; }
-.titolo .trenta { display: block; font-weight: 300; font-stretch: 62%; font-size: clamp(170px, 56vw, 440px); letter-spacing: -0.04em; margin-left: -0.03em; line-height: 0.78; }
+.titolo .trenta { display: block; font-weight: 300; font-stretch: 62%; font-size: clamp(130px, 42vw, 330px); letter-spacing: -0.04em; margin-left: -0.03em; line-height: 0.78; }
 .hero .tocco { margin-top: 22px; font-size: 14px; opacity: 0.75; display: flex; align-items: center; gap: 10px; }
 .hero .tocco::before { content: ""; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid currentColor; animation: tap 2.6s ease-in-out infinite; }
 @keyframes tap { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.7); opacity: 0.5; } }
@@ -199,19 +199,19 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
 /* ---------- LETTERA IN BUSTA ---------- */
 .lettera { background: var(--ghiaccio); }
 .busta-box { margin-top: 34px; display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
-.busta { position: relative; width: min(100%, 420px); aspect-ratio: 3 / 2; perspective: 1000px; transition: transform 0.6s var(--ease), opacity 0.5s, max-height 0.6s var(--ease); }
-.busta .corpo { position: absolute; inset: 0; background: var(--blu); border-radius: 10px; overflow: hidden; }
-.busta .corpo::before { content: ""; position: absolute; inset: 0; background: var(--blu2); clip-path: polygon(0 100%, 50% 48%, 100% 100%); }
-.busta .corpo::after { content: ""; position: absolute; inset: 0; background: #2148DD; clip-path: polygon(0 0, 50% 56%, 0 100%); }
-.busta .lato { position: absolute; inset: 0; background: #2148DD; clip-path: polygon(100% 0, 50% 56%, 100% 100%); border-radius: 10px; }
-.busta .foglio { position: absolute; left: 7%; right: 7%; top: 8%; height: 80%; background: var(--bianco); border-radius: 6px; transition: transform 0.7s var(--ease) 0.35s; z-index: 0; }
-.busta .foglio::before { content: ""; position: absolute; left: 14%; right: 14%; top: 22%; height: 40%; background: repeating-linear-gradient(var(--cielo) 0 2px, transparent 2px 14px); opacity: 0.6; }
-.busta .corpo, .busta .lato { z-index: 1; }
-.busta .aletta { position: absolute; left: 0; right: 0; top: 0; height: 58%; background: var(--blu); clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: 50% 0; transition: transform 0.55s var(--ease); z-index: 3; border-radius: 10px 10px 0 0; }
+.busta { position: relative; width: min(100%, 420px); aspect-ratio: 3 / 2; margin-top: 118px; perspective: 1000px; }
+.busta .fondo { position: absolute; inset: 0; background: #0A2DB4; border-radius: 10px; z-index: 0; }
+.busta .foglio { position: absolute; left: 6%; right: 6%; top: 6%; height: 86%; background: var(--bianco); border-radius: 6px; z-index: 1; box-shadow: 0 10px 30px -12px rgba(7,27,95,0.45); transition: transform 0.8s var(--ease) 0.45s; }
+.busta .foglio::before { content: ""; position: absolute; left: 12%; right: 12%; top: 26%; height: 46%; background: repeating-linear-gradient(var(--cielo) 0 2px, transparent 2px 13px); opacity: 0.7; }
+.busta .foglio::after { content: "Per Franci"; position: absolute; left: 12%; top: 9%; font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--blu); }
+.busta .tasca { position: absolute; inset: 0; z-index: 2; background: var(--blu); border-radius: 10px; clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%); }
+.busta .tasca::before { content: ""; position: absolute; inset: 0; background: var(--blu2); clip-path: polygon(0 100%, 50% 50%, 100% 100%); }
+.busta .aletta { position: absolute; left: 0; right: 0; top: 0; height: 58%; background: #1C45DE; clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: 50% 0; transition: transform 0.55s var(--ease); z-index: 3; border-radius: 10px 10px 0 0; }
 .busta .sigillo { position: absolute; left: 50%; top: 58%; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: var(--bianco); color: var(--blu); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-style: italic; font-size: 30px; z-index: 4; box-shadow: 0 6px 18px rgba(7,27,95,0.35); transition: transform 0.4s var(--ease), opacity 0.3s; }
 .busta-aperta .sigillo { transform: scale(0); opacity: 0; }
 .busta-aperta .aletta { transform: rotateX(180deg); z-index: 0; }
-.busta-aperta .foglio { transform: translateY(-58%); }
+.busta-aperta .foglio { transform: translateY(-62%); }
+.busta-fuori .foglio { z-index: 5; transform: translateY(-18%) scale(1.06) rotate(-2deg); transition: transform 0.7s var(--ease); }
 .btn { display: inline-flex; align-items: center; gap: 10px; background: var(--blu); color: var(--bianco); font-weight: 700; font-size: 17px; border-radius: 40px; padding: 15px 26px; transition: transform 0.15s; }
 .btn:active { transform: scale(0.96); }
 .testo { max-width: 34em; }
@@ -300,7 +300,7 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
 <script>document.documentElement.classList.add('js'); document.body.classList.add('chiuso'); if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; window.scrollTo(0, 0);</script>
 
 <!-- IL REGALO DA SCARTARE -->
-<div id="regalo" role="dialog" aria-label="Un regalo per Francy">
+<div id="regalo" role="dialog" aria-label="Un regalo per Franci">
   <div class="anta sx"></div>
   <div class="anta dx"></div>
   <div class="nastro-o"></div>
@@ -312,7 +312,7 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
     <circle cx="85" cy="88" r="15" stroke="none"/>
   </svg>
   <div class="etichetta"><div class="cartellino">
-    <p>Un regalo per Francy</p>
+    <p>Un regalo per Franci</p>
     <small>Da aprire il 24 novembre</small>
     <button id="apri" type="button">Apri il regalo</button>
   </div></div>
@@ -323,9 +323,9 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
   <div class="wrap">
     <div class="data">24 novembre 2026</div>
     <div>
-      <h1 class="titolo" aria-label="Buon compleanno Francy, 30">
+      <h1 class="titolo" aria-label="Buon compleanno Franci, 30">
         <span class="auguri">Buon compleanno</span>
-        <span class="nome" aria-hidden="true"><i style="--i:0">F</i><i style="--i:1">r</i><i style="--i:2">a</i><i style="--i:3">n</i><i style="--i:4">c</i><i style="--i:5">y</i></span>
+        <span class="nome" aria-hidden="true"><i style="--i:0">F</i><i style="--i:1">r</i><i style="--i:2">a</i><i style="--i:3">n</i><i style="--i:4">c</i><i style="--i:5">i</i></span>
         <span class="trenta" aria-hidden="true">30</span>
       </h1>
       <div class="tocco">Tocca e trascina per muovere il vento</div>
@@ -463,9 +463,9 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
     <h2>Due parole, da tuo fratello.</h2>
     <div class="busta-box">
       <div class="busta" id="busta" aria-hidden="true">
+        <div class="fondo"></div>
         <div class="foglio"></div>
-        <div class="corpo"></div>
-        <div class="lato"></div>
+        <div class="tasca"></div>
         <div class="aletta"></div>
         <div class="sigillo">F</div>
       </div>
@@ -498,7 +498,7 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
     </div>
     <div class="capsula-testo" id="capsula-testo" hidden>
       <span class="prova">Testo di prova</span>
-      <p>Qui la lettera che Seba scrive oggi per la Francy di quarant'anni.</p>
+      <p>Qui la lettera che Seba scrive oggi per la Franci di quarant'anni.</p>
     </div>
   </div>
 </section>
@@ -560,7 +560,7 @@ var FOTO = [
   { didascalia: 'Il panorama più bello', forma: 'larga', src: '' }
 ];
 var TAPPE = [
-  { anno: 1996, testo: 'Il 24 novembre arriva Francy.' },
+  { anno: 1996, testo: 'Il 24 novembre arriva Franci.' },
   { anno: 2002, testo: 'Un ricordo d’infanzia da inserire: la prima volta su un cavallo?', prova: true },
   { anno: 2008, testo: 'Un momento da inserire: la scuola, un’amicizia, una scoperta.', prova: true },
   { anno: 2014, testo: 'Un traguardo da inserire: il diploma, un viaggio, una scelta importante.', prova: true },
@@ -715,8 +715,10 @@ var TAPPE = [
   /* ---- BUSTA ---- */
   var lett = document.getElementById('lettera'), busta = document.getElementById('busta');
   document.getElementById('apri-lettera').addEventListener('click', function () {
-    busta.parentNode.classList.add('busta-aperta');
-    setTimeout(function () { lett.classList.add('letta'); }, reduce ? 0 : 1300);
+    var box = busta.parentNode; box.classList.add('busta-aperta'); this.style.visibility = 'hidden';
+    if (reduce) { lett.classList.add('letta'); return; }
+    setTimeout(function () { box.classList.add('busta-fuori'); }, 1350);
+    setTimeout(function () { lett.classList.add('letta'); }, 2600);
   });
 
   /* ---- FRECCIA GIÙ ---- */
@@ -795,7 +797,7 @@ var TAPPE = [
   }
   btn.addEventListener('click', function () {
     var sp = torta.classList.toggle('spente');
-    if (sp) { tit.textContent = 'Tanti auguri, Francy!'; txt.textContent = 'Desiderio espresso. Che si avveri tutto, nei prossimi trent’anni.'; btn.textContent = 'Riaccendi le candeline'; if (!reduce) scoppio(); }
+    if (sp) { tit.textContent = 'Tanti auguri, Franci!'; txt.textContent = 'Desiderio espresso. Che si avveri tutto, nei prossimi trent’anni.'; btn.textContent = 'Riaccendi le candeline'; if (!reduce) scoppio(); }
     else { tit.textContent = 'Ora tocca a te.'; txt.textContent = 'Esprimi un desiderio, poi spegni le candeline.'; btn.textContent = 'Spegni le candeline'; }
   });
 })();
