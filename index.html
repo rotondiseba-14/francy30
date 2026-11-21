@@ -212,33 +212,6 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
 .tondo:active { transform: scale(0.9); }
 .tondo svg { width: 18px; height: 18px; stroke: var(--blu); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-/* ---------- LETTERA IN BUSTA ---------- */
-.lettera { background: var(--ghiaccio); }
-.busta-box { margin-top: 34px; display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
-.busta { position: relative; width: min(100%, 420px); aspect-ratio: 3 / 2; margin-top: 118px; perspective: 1000px; }
-.busta .fondo { position: absolute; inset: 0; background: #0A2DB4; border-radius: 10px; z-index: 0; }
-.busta .foglio { position: absolute; left: 6%; right: 6%; top: 6%; height: 86%; background: var(--bianco); border-radius: 6px; z-index: 1; box-shadow: 0 10px 30px -12px rgba(7,27,95,0.45); transition: transform 0.8s var(--ease) 0.45s; }
-.busta .foglio::before { content: ""; position: absolute; left: 12%; right: 12%; top: 26%; height: 46%; background: repeating-linear-gradient(var(--cielo) 0 2px, transparent 2px 13px); opacity: 0.7; }
-.busta .foglio::after { content: "Per Franci"; position: absolute; left: 12%; top: 9%; font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--blu); }
-.busta .tasca { position: absolute; inset: 0; z-index: 2; background: var(--blu); border-radius: 10px; clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%); }
-.busta .tasca::before { content: ""; position: absolute; inset: 0; background: var(--blu2); clip-path: polygon(0 100%, 50% 50%, 100% 100%); }
-.busta .aletta { position: absolute; left: 0; right: 0; top: 0; height: 58%; background: #1C45DE; clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: 50% 0; transition: transform 0.55s var(--ease); z-index: 3; border-radius: 10px 10px 0 0; }
-.busta .sigillo { position: absolute; left: 50%; top: 58%; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: var(--bianco); color: var(--blu); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-style: italic; font-size: 30px; z-index: 4; box-shadow: 0 6px 18px rgba(7,27,95,0.35); transition: transform 0.4s var(--ease), opacity 0.3s; }
-.busta-aperta .sigillo { transform: scale(0); opacity: 0; }
-.busta-aperta .aletta { transform: rotateX(180deg); z-index: 0; }
-.busta-aperta .foglio { transform: translateY(-62%); }
-.busta-fuori .foglio { z-index: 5; transform: translateY(-18%) scale(1.06) rotate(-2deg); transition: transform 0.7s var(--ease); }
-.btn { display: inline-flex; align-items: center; gap: 10px; background: var(--blu); color: var(--bianco); font-weight: 700; font-size: 17px; border-radius: 40px; padding: 15px 26px; transition: transform 0.15s; }
-.btn:active { transform: scale(0.96); }
-.testo { max-width: 34em; }
-.js .testo { display: none; }
-.js .letta .testo { display: block; animation: emergi 0.9s var(--ease) both; }
-@keyframes emergi { from { opacity: 0; transform: translateY(26px); } }
-.letta .busta, .letta #apri-lettera { display: none; }
-.testo p { font-family: var(--serif); font-size: 24px; line-height: 1.42; color: var(--notte); }
-.testo p + p { margin-top: 18px; }
-.firma { margin-top: 28px; font-family: var(--serif); font-style: italic; font-size: 44px; color: var(--blu); line-height: 1; }
-
 /* ---------- CAPSULA DEL TEMPO ---------- */
 .capsula { background: var(--notte); color: var(--bianco); }
 .capsula .lead { color: rgba(255,255,255,0.72); }
@@ -298,6 +271,35 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
 .viaggio svg { width: 18px; height: 18px; fill: var(--bianco); }
 #anno.cambia { animation: cambia 0.5s var(--ease); }
 @keyframes cambia { 40% { transform: scale(1.06); color: var(--cielo); } }
+
+/* ---------- CANZONE ---------- */
+.canzone { background: var(--blu); color: var(--bianco); overflow: hidden; }
+.canzone .lead { color: rgba(255,255,255,0.8); }
+.player { margin-top: 36px; display: grid; gap: 26px; max-width: 520px; }
+.disco { position: relative; width: min(78vw, 300px); aspect-ratio: 1; border-radius: 50%; background: repeating-radial-gradient(circle at 50% 50%, #0A1A5C 0 2px, #071450 2px 5px); box-shadow: 0 30px 60px -25px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.08); animation: gira 4s linear infinite; animation-play-state: paused; }
+.disco::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 40deg, transparent 0 20%, rgba(255,255,255,0.12) 25%, transparent 32% 70%, rgba(255,255,255,0.08) 75%, transparent 82%); }
+.suona .disco { animation-play-state: running; }
+@keyframes gira { to { transform: rotate(360deg); } }
+.etichetta-disco { position: absolute; inset: 31%; border-radius: 50%; background: var(--bianco); color: var(--blu); display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1; z-index: 1; }
+.etichetta-disco span { font-family: var(--serif); font-style: italic; font-size: clamp(16px, 5vw, 22px); }
+.etichetta-disco b { font-weight: 300; font-stretch: 62%; font-size: clamp(30px, 10vw, 44px); }
+.etichetta-disco::after { content: ""; position: absolute; width: 10px; height: 10px; border-radius: 50%; background: var(--blu); top: 50%; left: 50%; margin: -5px 0 0 -5px; opacity: 0.25; }
+.riga-play { display: flex; align-items: center; gap: 16px; }
+.play-btn { flex: none; width: 70px; height: 70px; border-radius: 50%; background: var(--bianco); display: flex; align-items: center; justify-content: center; transition: transform 0.15s; box-shadow: 0 12px 30px -12px rgba(0,0,0,0.5); }
+.play-btn:active { transform: scale(0.92); }
+.play-btn svg { width: 26px; height: 26px; fill: var(--blu); }
+.play-btn .pausa { margin-left: 0; }
+.info-brano strong { display: block; font-weight: 800; font-stretch: 108%; font-size: 21px; line-height: 1.1; letter-spacing: -0.01em; }
+.info-brano span { display: block; margin-top: 4px; font-size: 14px; color: var(--cielo); }
+.eq { display: flex; align-items: flex-end; gap: 3px; height: 46px; }
+.eq i { flex: 1; min-width: 2px; border-radius: 2px; background: rgba(255,255,255,0.85); height: 12%; transition: height 0.12s linear; }
+.barra-brano { position: relative; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.22); cursor: pointer; touch-action: none; }
+.barra-brano::before { content: ""; position: absolute; inset: -14px 0; }
+.barra-brano i { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 3px; background: var(--bianco); }
+.barra-brano i::after { content: ""; position: absolute; right: -7px; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: var(--bianco); box-shadow: 0 2px 8px rgba(0,0,0,0.35); }
+.tempi { display: flex; justify-content: space-between; font-size: 13px; color: rgba(255,255,255,0.75); font-variant-numeric: tabular-nums; margin-top: -14px; }
+.non-pronta .play-btn { opacity: 0.55; }
+@media (min-width: 760px) { .player { grid-template-columns: auto 1fr; align-items: center; max-width: none; gap: 50px; } .disco { width: 300px; } }
 
 /* ---------- CANDELINE ---------- */
 .finale { background: var(--blu); color: var(--bianco); overflow: hidden; padding: 76px 0 calc(env(safe-area-inset-bottom) + 50px); text-align: center; }
@@ -514,24 +516,22 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
   </div>
 </section>
 
-<section class="lettera" id="lettera">
+<section class="canzone" id="canzone">
   <div class="wrap">
-    <h2>Due parole, da tuo fratello.</h2>
-    <div class="busta-box">
-      <div class="busta" id="busta" aria-hidden="true">
-        <div class="fondo"></div>
-        <div class="foglio"></div>
-        <div class="tasca"></div>
-        <div class="aletta"></div>
-        <div class="sigillo">F</div>
+    <h2>Una canzone tutta per te, e un po' contro di te.</h2>
+    <p class="lead">Trent'anni raccontati con l'affetto e l'ironia che meriti. Alza il volume.</p>
+    <div class="player" id="player">
+      <div class="disco" aria-hidden="true"><div class="etichetta-disco"><span>Franci</span><b>30</b></div></div>
+      <div class="pannello">
+        <div class="riga-play">
+          <button class="play-btn" id="play-btn" type="button" aria-label="Riproduci la canzone"><svg viewBox="0 0 24 24"><path id="play-ico" d="M7 4l13 8-13 8z"/></svg></button>
+          <div class="info-brano"><strong id="brano-titolo">La canzone dei tuoi 30</strong><span id="brano-stato">Tocca play</span></div>
+        </div>
+        <div class="eq" id="eq" aria-hidden="true"></div>
+        <div class="barra-brano" id="barra-brano" role="slider" aria-label="Avanzamento" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><i id="riempi"></i></div>
+        <div class="tempi"><span id="t-ora">0:00</span><span id="t-tot">0:00</span></div>
       </div>
-      <button class="btn" id="apri-lettera" type="button">Apri la lettera</button>
-      <div class="testo">
-        <span class="prova">Testo di prova</span>
-        <p>Qui ci sarà la lettera di Seba, pensata per essere letta con calma sul telefono, con caratteri grandi e tanta aria intorno.</p>
-        <p>Può raccontare un ricordo, dire cosa significa avere una sorella come lei e chiudersi con un augurio per i prossimi trent'anni.</p>
-        <div class="firma">Seba</div>
-      </div>
+      <audio id="audio-canzone" src="canzone.mp3" preload="metadata"></audio>
     </div>
   </div>
 </section>
@@ -843,15 +843,6 @@ var TAPPE = [
   mazzo.addEventListener('pointerup', rilascia); mazzo.addEventListener('pointercancel', rilascia);
   disponi();
 
-  /* ---- BUSTA ---- */
-  var lett = document.getElementById('lettera'), busta = document.getElementById('busta');
-  document.getElementById('apri-lettera').addEventListener('click', function () {
-    var box = busta.parentNode; box.classList.add('busta-aperta'); this.style.visibility = 'hidden';
-    if (reduce) { lett.classList.add('letta'); scriviLettera(); return; }
-    setTimeout(function () { box.classList.add('busta-fuori'); }, 1350);
-    setTimeout(function () { lett.classList.add('letta'); scriviLettera(); }, 2600);
-  });
-
   function festa(box) {
     if (navigator.vibrate) try { navigator.vibrate([30, 40, 60]); } catch (_) {}
     if (reduce) return;
@@ -917,18 +908,6 @@ var TAPPE = [
   /* ---- RICOMINCIA ---- */
   document.getElementById('ricomincia').addEventListener('click', function () { window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
 
-  /* ---- LETTERA A MACCHINA ---- */
-  var testoL = document.querySelector('.lettera .testo'), parL = Array.from(testoL.querySelectorAll('p')).map(prepara), firmaL = testoL.querySelector('.firma'), saltaL = null;
-  firmaL.style.opacity = 0; firmaL.style.transition = 'opacity 0.8s';
-  function scriviLettera() {
-    var k = 0;
-    (function prossimo() {
-      if (k >= parL.length) { firmaL.style.opacity = 1; saltaL = null; return; }
-      saltaL = scrivi(parL[k++], 28, function () { setTimeout(prossimo, 350); });
-    })();
-  }
-  testoL.addEventListener('click', function () { if (!saltaL) return; parL.forEach(function (cs) { cs.forEach(function (c) { c.classList.add('on'); }); }); firmaL.style.opacity = 1; var s = saltaL; saltaL = null; parL = []; s(); });
-
   /* ---- ENTRATE E PARALLASSE ---- */
   document.querySelectorAll('section h2').forEach(function (h2) {
     if (h2.closest('.cavalli') || h2.id) return;
@@ -962,6 +941,36 @@ var TAPPE = [
     viaggioT = setInterval(function () { if (+cur.value >= TAPPE.length - 1) { fermaViaggio(); return; } cur.value = +cur.value + 1; mostra(); }, 2600);
   });
   cur.addEventListener('pointerdown', function () { if (viaggioT) fermaViaggio(); });
+
+  /* ---- CANZONE ---- */
+  var au = document.getElementById('audio-canzone'), pl = document.getElementById('player'), pb = document.getElementById('play-btn'), pIco = document.getElementById('play-ico');
+  var stato = document.getElementById('brano-stato'), riempi = document.getElementById('riempi'), barra = document.getElementById('barra-brano'), tOra = document.getElementById('t-ora'), tTot = document.getElementById('t-tot'), eq = document.getElementById('eq');
+  var NB = 28, barre = [], pronta = true, eqT = null;
+  for (var q = 0; q < NB; q++) { var bi = document.createElement('i'); eq.appendChild(bi); barre.push(bi); }
+  function mmss(s) { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s / 60) + ':' + (s % 60 < 10 ? '0' : '') + (s % 60); }
+  function eqVai(on) {
+    clearInterval(eqT);
+    if (!on || reduce) { barre.forEach(function (b) { b.style.height = '12%'; }); return; }
+    var fase = 0;
+    eqT = setInterval(function () { fase += 0.35; barre.forEach(function (b, i) { var v = 0.25 + 0.35 * Math.abs(Math.sin(fase + i * 0.55)) + Math.random() * 0.4; b.style.height = Math.min(100, v * 100) + '%'; }); }, 120);
+  }
+  au.addEventListener('error', function () { pronta = false; pl.classList.add('non-pronta'); stato.textContent = 'La canzone arriva presto'; });
+  au.addEventListener('loadedmetadata', function () { tTot.textContent = mmss(au.duration); });
+  au.addEventListener('timeupdate', function () { var p = au.duration ? au.currentTime / au.duration : 0; riempi.style.width = (p * 100) + '%'; barra.setAttribute('aria-valuenow', Math.round(p * 100)); tOra.textContent = mmss(au.currentTime); });
+  function aggiorna(suona) { pl.classList.toggle('suona', suona); pIco.setAttribute('d', suona ? 'M6 5h4v14H6zM14 5h4v14h-4z' : 'M7 4l13 8-13 8z'); pb.setAttribute('aria-label', suona ? 'Metti in pausa' : 'Riproduci la canzone'); stato.textContent = suona ? 'In riproduzione' : (au.currentTime > 0 ? 'In pausa' : 'Tocca play'); eqVai(suona); }
+  au.addEventListener('play', function () { aggiorna(true); });
+  au.addEventListener('pause', function () { aggiorna(false); });
+  au.addEventListener('ended', function () { aggiorna(false); stato.textContent = 'Riascoltala quando vuoi'; });
+  pb.addEventListener('click', function () {
+    if (!pronta) { stato.textContent = 'La canzone arriva presto'; pb.animate && pb.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }], { duration: 300 }); return; }
+    if (au.paused) { var pr = au.play(); if (pr && pr.catch) pr.catch(function () { stato.textContent = 'Tocca di nuovo play'; }); } else au.pause();
+  });
+  function cerca(e) { if (!au.duration) return; var r = barra.getBoundingClientRect(); au.currentTime = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)) * au.duration; }
+  var trasc = false;
+  barra.addEventListener('pointerdown', function (e) { trasc = true; cerca(e); try { barra.setPointerCapture(e.pointerId); } catch (_) {} });
+  barra.addEventListener('pointermove', function (e) { if (trasc) cerca(e); });
+  barra.addEventListener('pointerup', function () { trasc = false; });
+  barra.addEventListener('keydown', function (e) { if (!au.duration) return; if (e.key === 'ArrowRight') au.currentTime += 5; if (e.key === 'ArrowLeft') au.currentTime -= 5; });
 
   /* ---- CANDELINE ---- */
   var btn = document.getElementById('spegni'), torta = document.getElementById('torta'), tit = document.getElementById('finale-titolo'), txt = document.getElementById('finale-testo');
