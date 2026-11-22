@@ -153,8 +153,13 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
 .anni .lead { color: rgba(255,255,255,0.7); }
 .quadrante { margin-top: 34px; display: grid; gap: 4px; }
 .anno-grande { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
-#anno { font-weight: 300; font-stretch: 62%; font-size: clamp(120px, 38vw, 260px); line-height: 0.8; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+#anno { font-weight: 300; font-stretch: 62%; font-size: clamp(96px, 30vw, 260px); line-height: 0.8; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
 #eta { font-family: var(--serif); font-style: italic; font-size: 28px; color: var(--cielo); }
+.cornice { position: relative; width: min(58vw, 260px); aspect-ratio: 4 / 5; border-radius: 14px; overflow: hidden; background: rgba(255,255,255,0.08); border: 6px solid var(--bianco); box-shadow: 0 30px 60px -25px rgba(0,0,0,0.6); transform: rotate(-2.5deg); margin-bottom: 26px; transition: transform 0.6s var(--ease); }
+.cornice.destra { transform: rotate(2deg); }
+.cornice img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; transition: opacity 0.35s, transform 0.6s var(--ease); }
+.cornice img.esce { opacity: 0; transform: scale(1.06); }
+.cornice-vuota { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--cielo); }
 .tappa { margin-top: 20px; min-height: 5.2em; max-width: 36ch; font-size: 19px; line-height: 1.45; }
 .tappa .prova { color: var(--cielo); border-color: rgba(168,194,255,0.5); }
 .cursore-box { margin-top: 18px; }
@@ -335,6 +340,7 @@ a.player:active .play-btn { transform: scale(0.92); }
   .video { aspect-ratio: 16 / 9; padding: 40px; }
   .video strong { font-size: 38px; }
   .quadrante { grid-template-columns: 1fr 1fr; align-items: end; gap: 40px; }
+  .cornice { grid-row: span 2; margin-bottom: 0; }
 }
 @media (max-width: 360px) {
   .passione { min-height: 250px; }
@@ -466,6 +472,7 @@ a.player:active .play-btn { transform: scale(0.92); }
     <h2>Da zero a trenta, una tappa alla volta.</h2>
     <p class="lead">Trascina il cursore e attraversa i suoi anni.</p>
     <div class="quadrante">
+      <div class="cornice" id="cornice" aria-hidden="true"><img id="tappa-foto" alt=""><span class="cornice-vuota" id="cornice-vuota">Foto in arrivo</span></div>
       <div class="anno-grande"><span id="anno">1996</span><span id="eta">appena nata</span></div>
       <div>
         <p class="tappa" id="tappa" aria-live="polite"></p>
@@ -500,25 +507,6 @@ a.player:active .play-btn { transform: scale(0.92); }
         <span class="info-brano"><strong>Auguri, Franci!</strong><span id="vid-stato">Il video arriva presto</span></span>
       </button>
     </div>
-  </div>
-</section>
-
-<section class="messaggi">
-  <div class="wrap">
-    <span class="prova">Messaggi di prova</span>
-    <h2>Chi ti vuole bene ha qualcosa da dirti.</h2>
-    <div class="mazzo" id="mazzo">
-      <article class="biglietto"><blockquote>Qui il messaggio di una persona cara, scritto con le sue parole.</blockquote><div class="da"><i></i>Nome di chi scrive</div></article>
-      <article class="biglietto"><blockquote>Un augurio, un ricordo o una battuta che solo voi capite.</blockquote><div class="da"><i></i>Nome di chi scrive</div></article>
-      <article class="biglietto"><blockquote>Due righe bastano: l'importante è che sia sincero.</blockquote><div class="da"><i></i>Nome di chi scrive</div></article>
-      <article class="biglietto"><blockquote>Si possono aggiungere tutti i messaggi che vuoi.</blockquote><div class="da"><i></i>Nome di chi scrive</div></article>
-    </div>
-    <div class="mazzo-ctrl">
-      <button type="button" class="tondo" id="m-prec" aria-label="Messaggio precedente"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <span id="m-conta" aria-live="polite">1 di 4</span>
-      <button type="button" class="tondo" id="m-succ" aria-label="Messaggio successivo"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
-    </div>
-    <p class="suggerimento">Trascina un bigliettino di lato per leggere il prossimo</p>
   </div>
 </section>
 
@@ -605,13 +593,13 @@ var FOTO = [
   { didascalia: 'Serate', forma: '', src: 'foto/r-sera.jpg' },
   { didascalia: 'Eleganti', forma: 'larga', src: 'foto/r-elegante.jpg' }
 ];
-var TAPPE = [
-  { anno: 1996, testo: 'Il 24 novembre arriva Franci.' },
-  { anno: 2002, testo: 'Un ricordo d’infanzia da inserire: la prima volta su un cavallo?', prova: true },
-  { anno: 2008, testo: 'Un momento da inserire: la scuola, un’amicizia, una scoperta.', prova: true },
-  { anno: 2014, testo: 'Un traguardo da inserire: il diploma, un viaggio, una scelta importante.', prova: true },
-  { anno: 2020, testo: 'Un capitolo da inserire: lo sport, l’arrampicata, il beach volley.', prova: true },
-  { anno: 2026, testo: 'Trent’anni, e tutto quello che deve ancora arrivare.' }
+var TAPPE = [   // anni stimati dalle foto: da confermare
+  { anno: 1996, testo: 'Il 24 novembre arriva Franci.', foto: '' },
+  { anno: 2003, testo: 'Da piccola, già pronta a tutto.', foto: 'foto/r-piccoli-2.jpg', stima: true },
+  { anno: 2007, testo: 'Elegante già da bambina.', foto: 'foto/r-piccoli-1.jpg', stima: true },
+  { anno: 2016, testo: 'Gli anni dei filtri da cagnolino.', foto: 'foto/r-buffe-1.jpg', stima: true },
+  { anno: 2020, testo: 'Un traguardo da festeggiare.', foto: 'foto/r-festa.jpg', stima: true },
+  { anno: 2026, testo: 'Trent’anni, e tutto quello che deve ancora arrivare.', foto: 'foto/cavallo-2.jpg' }
 ];
 
 (function () {
@@ -746,11 +734,21 @@ var TAPPE = [
   cur.max = TAPPE.length - 1;
   TAPPE.forEach(function (tp, i) { var b = document.createElement('button'); b.type = 'button'; b.textContent = "'" + String(tp.anno).slice(2); b.setAttribute('aria-label', 'Anno ' + tp.anno); b.addEventListener('click', function () { cur.value = i; mostra(); }); tac.appendChild(b); });
   var animAnno;
+  var tFoto = document.getElementById('tappa-foto'), cornice = document.getElementById('cornice'), cVuota = document.getElementById('cornice-vuota'), ultimaFoto = null;
+  TAPPE.forEach(function (tp) { if (tp.foto) { var im = new Image(); im.src = tp.foto; } });
+  function cambiaFoto(src, i) {
+    if (src === ultimaFoto) return; ultimaFoto = src;
+    cornice.classList.toggle('destra', i % 2 === 1);
+    var metti = function () { if (src) { tFoto.src = src; tFoto.style.display = ''; cVuota.style.display = 'none'; } else { tFoto.removeAttribute('src'); tFoto.style.display = 'none'; cVuota.style.display = ''; } tFoto.classList.remove('esce'); };
+    if (reduce || !tFoto.getAttribute('src')) { metti(); return; }
+    tFoto.classList.add('esce'); setTimeout(metti, 300);
+  }
   function mostra() {
     var i = +cur.value, tp = TAPPE[i], eta = tp.anno - 1996;
     cur.style.setProperty('--p', (i / (TAPPE.length - 1) * 100) + '%');
     etaEl.textContent = eta === 0 ? 'appena nata' : eta + ' anni';
-    tapEl.innerHTML = (tp.prova ? '<span class="prova">Testo di prova</span><br>' : '') + tp.testo;
+    tapEl.innerHTML = (tp.stima ? '<span class="prova">Anno da confermare</span><br>' : '') + tp.testo;
+    cambiaFoto(tp.foto, i);
     Array.prototype.forEach.call(tac.children, function (b, j) { b.setAttribute('aria-current', j === i); });
     var da = +annoEl.textContent, a = tp.anno; cancelAnimationFrame(animAnno);
     if (!reduce && da !== a) { annoEl.classList.remove('cambia'); void annoEl.offsetWidth; annoEl.classList.add('cambia'); }
@@ -806,32 +804,6 @@ var TAPPE = [
   }
   osize(); window.addEventListener('resize', osize);
   if (!reduce) { (function ol() { if (ovis) { ot += ondaVel; odraw(); } requestAnimationFrame(ol); })(); onView(ov, function (v) { ovis = v; }); }
-
-  /* ---- MESSAGGI: mazzo da sfogliare ---- */
-  var mazzo = document.getElementById('mazzo'), carte = Array.from(mazzo.children), ordine = carte.map(function (_, i) { return i; }), mConta = document.getElementById('m-conta');
-  var ROT = [-2.5, 2, -1.2, 2.8, -2];
-  function disponi() {
-    ordine.forEach(function (ci, k) {
-      var c = carte[ci]; c.style.zIndex = carte.length - k;
-      c.style.transform = 'translateY(' + (k * 12) + 'px) scale(' + (1 - k * 0.045) + ') rotate(' + (k === 0 ? 0 : ROT[ci % ROT.length]) + 'deg)';
-      c.style.opacity = k > 3 ? 0 : 1; c.setAttribute('aria-hidden', k !== 0);
-    });
-    mConta.textContent = (ordine[0] + 1) + ' di ' + carte.length;
-  }
-  function vola(dir) {
-    var c = carte[ordine[0]];
-    c.style.transform = 'translateX(' + (dir * 130) + '%) rotate(' + (dir * 22) + 'deg)'; c.style.opacity = 0;
-    setTimeout(function () { ordine.push(ordine.shift()); disponi(); }, reduce ? 0 : 320);
-  }
-  function indietro() { ordine.unshift(ordine.pop()); var c = carte[ordine[0]]; c.style.transition = 'none'; c.style.transform = 'translateX(-130%) rotate(-22deg)'; c.offsetWidth; c.style.transition = ''; disponi(); }
-  document.getElementById('m-succ').addEventListener('click', function () { vola(1); });
-  document.getElementById('m-prec').addEventListener('click', indietro);
-  var mx0 = null, mdx = 0;
-  mazzo.addEventListener('pointerdown', function (e) { var c = carte[ordine[0]]; if (!c.contains(e.target)) return; mx0 = e.clientX; mdx = 0; c.classList.add('trascina'); try { c.setPointerCapture(e.pointerId); } catch (_) {} });
-  mazzo.addEventListener('pointermove', function (e) { if (mx0 === null) return; mdx = e.clientX - mx0; carte[ordine[0]].style.transform = 'translateX(' + mdx + 'px) rotate(' + (mdx / 18) + 'deg)'; });
-  function rilascia() { if (mx0 === null) return; var c = carte[ordine[0]]; c.classList.remove('trascina'); mx0 = null; if (Math.abs(mdx) > 70) vola(mdx > 0 ? 1 : -1); else disponi(); }
-  mazzo.addEventListener('pointerup', rilascia); mazzo.addEventListener('pointercancel', rilascia);
-  disponi();
 
   function festa(box) {
     if (navigator.vibrate) try { navigator.vibrate([30, 40, 60]); } catch (_) {}
