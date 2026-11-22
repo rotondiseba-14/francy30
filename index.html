@@ -55,7 +55,7 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--cielo); out
 #regalo .sx::after { right: 0; }
 #regalo .dx::after { left: 0; }
 #regalo .nastro-o { position: absolute; left: 0; right: 0; top: 44%; height: 44px; background: var(--bianco); transition: transform 0.7s var(--ease), opacity 0.5s; }
-#regalo .fiocco { position: absolute; left: 50%; top: 44%; width: 170px; margin: -86px 0 0 -85px; stroke: var(--bianco); fill: var(--bianco); transition: transform 0.6s var(--ease), opacity 0.4s; }
+#regalo .fiocco { position: absolute; left: 50%; top: 44%; width: 170px; margin: -86px 0 0 -85px; stroke: #FF8A1F; fill: #FF8A1F; filter: drop-shadow(0 8px 16px rgba(120,40,0,0.35)); transition: transform 0.6s var(--ease), opacity 0.4s; }
 #regalo .etichetta { position: absolute; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom) + 34px); text-align: center; padding: 0 24px; transition: opacity 0.4s; z-index: 2; }
 #regalo .cartellino { display: inline-block; background: var(--bianco); color: var(--blu); border-radius: 20px; padding: 26px 30px 24px; box-shadow: 0 24px 50px -20px rgba(7,27,95,0.6); transform: rotate(-2deg); }
 #regalo .etichetta p { font-family: var(--serif); font-style: italic; font-size: 32px; line-height: 1.05; }
@@ -558,7 +558,7 @@ a.player:active .play-btn { transform: scale(0.92); }
     <div><button class="bottone" id="spegni" type="button">Spegni le candeline</button></div>
     <div><button class="ricomincia" id="ricomincia" type="button">Rivedi dall'inizio</button></div>
     <div class="firma-finale">Con affetto, Seba</div>
-    <div id="versione" style="margin-top:18px;font-size:11px;opacity:.45">versione 22.11 02:01</div>
+    <div id="versione" style="margin-top:18px;font-size:11px;opacity:.45">versione 22.11 14:29</div>
   </div>
 </section>
 
@@ -580,7 +580,7 @@ a.player:active .play-btn { transform: scale(0.92); }
 var SUNO_LINK = '';            // incolla qui il link di condivisione della canzone su Suno
 var TITOLO_CANZONE = '';       // titolo da mostrare (facoltativo)
 var NOMI_VIDEO = [];           // es. { da: 0, a: 4, nome: 'Mamma' } — secondi in cui compare il nome di chi parla nel video
-var FUOCHI = {"foto/arrampicata.jpg":{"pos":"50% 42%","col":"#8f8778"},"foto/beach-volley.jpg":{"pos":"50% 62%","col":"#af9974"},"foto/camminate.jpg":{"pos":"43% 29%","col":"#707a85"},"foto/cavallo-1.jpg":{"pos":"45% 30%","col":"#5e5e56"},"foto/cavallo-2.jpg":{"pos":"60% 40%","col":"#7a8058"},"foto/cavallo-3.jpg":{"pos":"50% 45%","col":"#3c3926"},"foto/r-abbraccio.jpg":{"pos":"30% 41%","col":"#a38b85"},"foto/r-auto.jpg":{"pos":"50% 45%","col":"#756d69"},"foto/r-barca.jpg":{"pos":"50% 40%","col":"#697186"},"foto/r-buffe-1.jpg":{"pos":"50% 35%","col":"#655349"},"foto/r-buffe-2.jpg":{"pos":"50% 32%","col":"#765449"},"foto/r-coccole.jpg":{"pos":"28% 39%","col":"#80675b"},"foto/r-dallalto.jpg":{"pos":"35% 58%","col":"#726a6c"},"foto/r-elegante.jpg":{"pos":"45% 21%","col":"#655252"},"foto/r-famiglia.jpg":{"pos":"47% 34%","col":"#6b5044"},"foto/r-festa.jpg":{"pos":"46% 29%","col":"#786c6b"},"foto/r-ghiaccio.jpg":{"pos":"50% 40%","col":"#9b908a"},"foto/r-insieme.jpg":{"pos":"43% 22%","col":"#614853"},"foto/r-mare.jpg":{"pos":"49% 40%","col":"#7a6558"},"foto/r-piccoli-1.jpg":{"pos":"54% 26%","col":"#6d5e5c"},"foto/r-piccoli-2.jpg":{"pos":"48% 16%","col":"#7e776e"},"foto/r-pranzo.jpg":{"pos":"45% 30%","col":"#658395"},"foto/r-selfie.jpg":{"pos":"57% 47%","col":"#8c7369"},"foto/r-sera.jpg":{"pos":"50% 40%","col":"#302926"},"foto/r-tavolata.jpg":{"pos":"40% 46%","col":"#9f8785"},"foto/r-terrazza.jpg":{"pos":"52% 19%","col":"#795f4d"},"foto/r-volley-2.jpg":{"pos":"50% 45%","col":"#999993"},"foto/viaggi.jpg":{"pos":"48% 31%","col":"#606a78"}};   // punto focale (volti) e colore di attesa per ogni foto, calcolati automaticamente
+var FUOCHI = {"foto/arrampicata.jpg":{"pos":"50% 42%","col":"#8f8778"},"foto/beach-volley.jpg":{"pos":"50% 62%","col":"#af9974"},"foto/camminate.jpg":{"pos":"43% 29%","col":"#707a85"},"foto/cavallo-1.jpg":{"pos":"45% 30%","col":"#5e5e56"},"foto/cavallo-2.jpg":{"pos":"60% 40%","col":"#7a8058"},"foto/cavallo-3.jpg":{"pos":"50% 45%","col":"#3c3926"},"foto/r-abbraccio.jpg":{"pos":"30% 41%","col":"#a38b85"},"foto/r-auto.jpg":{"pos":"50% 45%","col":"#756d69"},"foto/r-barca.jpg":{"pos":"50% 40%","col":"#697186"},"foto/r-buffe-1.jpg":{"pos":"50% 35%","col":"#655349"},"foto/r-buffe-2.jpg":{"pos":"50% 32%","col":"#765449"},"foto/r-coccole.jpg":{"pos":"28% 39%","col":"#80675b"},"foto/r-dallalto.jpg":{"pos":"35% 58%","col":"#726a6c"},"foto/r-elegante.jpg":{"pos":"45% 21%","col":"#655252"},"foto/r-famiglia.jpg":{"pos":"47% 34%","col":"#6b5044"},"foto/r-festa.jpg":{"pos":"46% 29%","col":"#786c6b"},"foto/r-ghiaccio.jpg":{"pos":"50% 40%","col":"#9b908a"},"foto/r-insieme.jpg":{"pos":"43% 22%","col":"#614853"},"foto/r-mare.jpg":{"pos":"49% 40%","col":"#7a6558"},"foto/r-piccoli-1.jpg":{"pos":"54% 26%","col":"#6d5e5c"},"foto/r-piccoli-2.jpg":{"pos":"48% 16%","col":"#7e776e"},"foto/r-pranzo.jpg":{"pos":"45% 30%","col":"#658395"},"foto/r-selfie.jpg":{"pos":"57% 47%","col":"#8c7369"},"foto/r-sera.jpg":{"pos":"50% 40%","col":"#302926"},"foto/r-tavolata.jpg":{"pos":"40% 46%","col":"#9f8785"},"foto/r-terrazza.jpg":{"pos":"52% 19%","col":"#795f4d"},"foto/r-volley-2.jpg":{"pos":"50% 45%","col":"#999993"},"foto/viaggi.jpg":{"pos":"48% 31%","col":"#606a78"},"foto/t-neonata.jpg":{"pos":"45% 35%","col":"#a1989b"},"foto/t-coccole.jpg":{"pos":"44% 45%","col":"#928587"},"foto/t-dondolo.jpg":{"pos":"50% 30%","col":"#7a403a"},"foto/t-insieme.jpg":{"pos":"50% 35%","col":"#a3725d"},"foto/t-balcone.jpg":{"pos":"45% 25%","col":"#9b9191"},"foto/t-cavallo.jpg":{"pos":"50% 45%","col":"#978e80"}};   // punto focale (volti) e colore di attesa per ogni foto, calcolati automaticamente
 
 var FOTO = [
   { didascalia: 'Coccole', forma: 'alta', src: 'foto/r-coccole.jpg' },
@@ -603,9 +603,14 @@ var FOTO = [
   { didascalia: 'Eleganti', forma: 'larga', src: 'foto/r-elegante.jpg' }
 ];
 var TAPPE = [   // anni stimati dalle foto: da confermare
-  { anno: 1996, testo: 'Il 24 novembre arriva Franci.', foto: '' },
+  { anno: 1996, testo: 'Il 24 novembre arriva Franci.', foto: 'foto/t-neonata.jpg' },
+  { anno: 1997, testo: 'Le prime coccole.', foto: 'foto/t-coccole.jpg', stima: true },
+  { anno: 1998, testo: 'Il primo cavallo. A dondolo.', foto: 'foto/t-dondolo.jpg', stima: true },
+  { anno: 2002, testo: 'Sorrisi da foto ricordo.', foto: 'foto/t-insieme.jpg', stima: true },
   { anno: 2003, testo: 'Da piccola, già pronta a tutto.', foto: 'foto/r-piccoli-2.jpg', stima: true },
-  { anno: 2007, testo: 'Elegante già da bambina.', foto: 'foto/r-piccoli-1.jpg', stima: true },
+  { anno: 2005, testo: 'Sul balcone di casa.', foto: 'foto/t-balcone.jpg', stima: true },
+  { anno: 2006, testo: 'I primi passi tra i cavalli veri.', foto: 'foto/t-cavallo.jpg', stima: true },
+  { anno: 2008, testo: 'Elegante già da bambina.', foto: 'foto/r-piccoli-1.jpg', stima: true },
   { anno: 2016, testo: 'Gli anni dei filtri da cagnolino.', foto: 'foto/r-buffe-1.jpg', stima: true },
   { anno: 2020, testo: 'Un traguardo da festeggiare.', foto: 'foto/r-festa.jpg', stima: true },
   { anno: 2026, testo: 'Trent’anni, e tutto quello che deve ancora arrivare.', foto: 'foto/cavallo-2.jpg' }
