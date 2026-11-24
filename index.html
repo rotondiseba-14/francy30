@@ -309,9 +309,10 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
 .non-pronta .play-btn { opacity: 0.55; }
 @media (min-width: 760px) { .player { grid-template-columns: auto 1fr; align-items: center; max-width: none; gap: 50px; } .disco { width: 300px; } }
 
-a.player { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
-a.player:active .play-btn { transform: scale(0.92); }
-.gira-ora .disco { animation-play-state: running; }
+.pannello { display: grid; gap: 22px; }
+button.disco { display: block; padding: 0; cursor: pointer; -webkit-touch-callout: none; }
+.barra-brano { margin-top: 4px; }
+.tempi { margin-top: -10px; }
 .coro { justify-content: space-between; gap: 20px; }
 .ora-parla { position: relative; z-index: 1; }
 .ora-parla small { display: block; font-size: 13px; color: var(--cielo); }
@@ -545,15 +546,18 @@ a.player:active .play-btn { transform: scale(0.92); }
   <div class="wrap">
     <h2>Una canzone tutta per te, e un po’ contro di te.</h2>
     <p class="lead">Trent’anni raccontati con l’affetto e l’ironia che meriti. Alza il volume.</p>
-    <a class="player non-pronta" id="player" href="#" target="_blank" rel="noopener">
-      <div class="disco" aria-hidden="true"><div class="etichetta-disco"><span>Franci</span><b>30</b></div></div>
+    <div class="player" id="player">
+      <button class="disco" id="disco" type="button" aria-label="Ascolta la canzone"><span class="etichetta-disco"><span>Franci</span><b>30</b></span></button>
       <div class="pannello">
         <div class="riga-play">
-          <span class="play-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></span>
-          <div class="info-brano"><strong id="brano-titolo">La canzone dei tuoi 30</strong><span id="brano-stato">La canzone arriva presto</span></div>
+          <button class="play-btn" id="brano-play" type="button" aria-label="Ascolta la canzone"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></button>
+          <div class="info-brano"><strong id="brano-titolo">Auguri Franci</strong><span id="brano-stato">Tocca per ascoltarla</span></div>
         </div>
+        <div class="barra-brano" id="barra-brano" role="slider" aria-label="Posizione nella canzone" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><i id="barra-pieno"></i></div>
+        <div class="tempi"><span id="t-ora">0:00</span><span id="t-tot">2:31</span></div>
       </div>
-    </a>
+      <audio id="canzone-audio" src="canzone.mp3" preload="metadata"></audio>
+    </div>
   </div>
 </section>
 
@@ -601,8 +605,6 @@ a.player:active .play-btn { transform: scale(0.92); }
 
 <script>
 /* ====== CONTENUTI: qui si inseriscono foto e testi ====== */
-var SUNO_LINK = 'https://suno.com/s/rnglsgx1QTXn4ZWR';            // incolla qui il link di condivisione della canzone su Suno
-var TITOLO_CANZONE = 'Auguri Franci';       // titolo da mostrare (facoltativo)
 var FUOCHI = {"foto/arrampicata.jpg":{"pos":"50% 42%","col":"#8f8778"},"foto/beach-volley.jpg":{"pos":"50% 62%","col":"#af9974"},"foto/camminate.jpg":{"pos":"43% 29%","col":"#707a85"},"foto/cavallo-1.jpg":{"pos":"45% 30%","col":"#5e5e56"},"foto/cavallo-2.jpg":{"pos":"60% 40%","col":"#7a8058"},"foto/cavallo-3.jpg":{"pos":"50% 45%","col":"#3c3926"},"foto/r-abbraccio.jpg":{"pos":"30% 41%","col":"#a38b85"},"foto/r-auto.jpg":{"pos":"50% 45%","col":"#756d69"},"foto/r-barca.jpg":{"pos":"50% 40%","col":"#697186"},"foto/r-buffe-1.jpg":{"pos":"50% 35%","col":"#655349"},"foto/r-buffe-2.jpg":{"pos":"50% 32%","col":"#765449"},"foto/r-coccole.jpg":{"pos":"28% 39%","col":"#80675b"},"foto/r-dallalto.jpg":{"pos":"35% 58%","col":"#726a6c"},"foto/r-elegante.jpg":{"pos":"45% 21%","col":"#655252"},"foto/r-famiglia.jpg":{"pos":"47% 34%","col":"#6b5044"},"foto/r-festa.jpg":{"pos":"46% 29%","col":"#786c6b"},"foto/r-ghiaccio.jpg":{"pos":"50% 40%","col":"#9b908a"},"foto/r-insieme.jpg":{"pos":"43% 22%","col":"#614853"},"foto/r-mare.jpg":{"pos":"49% 40%","col":"#7a6558"},"foto/r-piccoli-1.jpg":{"pos":"54% 26%","col":"#6d5e5c"},"foto/r-piccoli-2.jpg":{"pos":"48% 16%","col":"#7e776e"},"foto/r-pranzo.jpg":{"pos":"45% 30%","col":"#658395"},"foto/r-selfie.jpg":{"pos":"57% 47%","col":"#8c7369"},"foto/r-sera.jpg":{"pos":"50% 40%","col":"#302926"},"foto/r-tavolata.jpg":{"pos":"40% 46%","col":"#9f8785"},"foto/r-terrazza.jpg":{"pos":"52% 19%","col":"#795f4d"},"foto/r-volley-2.jpg":{"pos":"50% 45%","col":"#999993"},"foto/viaggi.jpg":{"pos":"48% 31%","col":"#606a78"},"foto/t-neonata.jpg":{"pos":"45% 35%","col":"#a1989b"},"foto/t-coccole.jpg":{"pos":"44% 45%","col":"#928587"},"foto/t-dondolo.jpg":{"pos":"50% 30%","col":"#7a403a"},"foto/t-insieme.jpg":{"pos":"50% 35%","col":"#a3725d"},"foto/t-balcone.jpg":{"pos":"45% 25%","col":"#9b9191"},"foto/t-cavallo.jpg":{"pos":"50% 45%","col":"#978e80"}};   // punto focale (volti) e colore di attesa per ogni foto, calcolati automaticamente
 
 var FOTO = [
@@ -943,6 +945,7 @@ var TAPPE = [   // anni stimati dalle foto: da confermare
     clearInterval(sfuma); musica.volume = 1; try { musica.currentTime = 0; } catch (_) {}
     var mio = ++giroV, partito = false, parti = function () { if (partito || mio !== giroV) return; partito = true; clearInterval(viaggioT); viaggioT = setInterval(passoViaggio, 2600); };
     viaggioT = setTimeout(function () {}, 0);   // segnaposto: il viaggio è in corso
+    if (!song.paused) song.pause();
     var pr = musica.play(); boxAnni.classList.add('suona-viaggio');
     if (pr && pr.then) { pr.then(parti, function () { boxAnni.classList.remove('suona-viaggio'); parti(); }); setTimeout(parti, 700); } else parti();
   });
@@ -951,13 +954,31 @@ var TAPPE = [   // anni stimati dalle foto: da confermare
   cur.addEventListener('pointerdown', function () { if (viaggioT) fermaViaggio(); });
   tac.addEventListener('click', function () { if (viaggioT) fermaViaggio(); }, true);
 
-  /* ---- CANZONE (link a Suno) ---- */
-  var plA = document.getElementById('player'), stA = document.getElementById('brano-stato');
-  if (SUNO_LINK) { plA.href = SUNO_LINK; plA.classList.remove('non-pronta'); stA.textContent = 'Tocca per ascoltarla su Suno'; if (TITOLO_CANZONE) document.getElementById('brano-titolo').textContent = TITOLO_CANZONE; }
-  plA.addEventListener('click', function (e) {
-    if (!SUNO_LINK) { e.preventDefault(); stA.textContent = 'La canzone arriva presto'; return; }
-    plA.classList.add('gira-ora'); setTimeout(function () { plA.classList.remove('gira-ora'); }, 4000);
-  });
+  /* ---- CANZONE (suona dentro il sito) ---- */
+  var pl = document.getElementById('player'), song = document.getElementById('canzone-audio'), sPlay = document.getElementById('brano-play'), stA = document.getElementById('brano-stato');
+  var barra = document.getElementById('barra-brano'), pieno = document.getElementById('barra-pieno'), tOra = document.getElementById('t-ora'), tTot = document.getElementById('t-tot');
+  var icoP = '<path d="M7 4l13 8-13 8z"/>', icoS = '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>';
+  function mmss(x) { x = Math.max(0, Math.floor(x || 0)); return Math.floor(x / 60) + ':' + (x % 60 < 10 ? '0' : '') + x % 60; }
+  function aggiorna() { var d = song.duration || 0, p = d ? song.currentTime / d * 100 : 0; pieno.style.width = p + '%'; barra.setAttribute('aria-valuenow', Math.round(p)); tOra.textContent = mmss(song.currentTime); if (d) tTot.textContent = mmss(d); }
+  function statoPlay(on) { pl.classList.toggle('suona', on); sPlay.querySelector('svg').innerHTML = on ? icoS : icoP; sPlay.setAttribute('aria-label', on ? 'Metti in pausa' : 'Ascolta la canzone'); stA.textContent = on ? 'In riproduzione' : (song.currentTime > 0 && !song.ended ? 'In pausa' : 'Tocca per ascoltarla'); }
+  function suonaCanzone() {
+    if (viaggioT) fermaViaggio();
+    if (!vid.paused) vid.pause();
+    var pr = song.play(); if (pr && pr.catch) pr.catch(function () { statoPlay(false); stA.textContent = 'Tocca di nuovo per ascoltarla'; });
+  }
+  function giraCanzone() { if (song.paused) suonaCanzone(); else song.pause(); }
+  sPlay.addEventListener('click', giraCanzone); document.getElementById('disco').addEventListener('click', giraCanzone);
+  song.addEventListener('play', function () { statoPlay(true); }); song.addEventListener('pause', function () { statoPlay(false); });
+  song.addEventListener('timeupdate', aggiorna); song.addEventListener('loadedmetadata', aggiorna);
+  song.addEventListener('ended', function () { song.currentTime = 0; aggiorna(); statoPlay(false); stA.textContent = 'Riascoltala quando vuoi'; });
+  song.addEventListener('error', function () { stA.textContent = 'La canzone non si carica: riprova tra poco'; });
+  function cerca(e) { var r = barra.getBoundingClientRect(), p = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)); if (song.duration) { song.currentTime = p * song.duration; aggiorna(); } }
+  var trascBarra = false;
+  barra.addEventListener('pointerdown', function (e) { trascBarra = true; try { barra.setPointerCapture(e.pointerId); } catch (_) {} cerca(e); });
+  barra.addEventListener('pointermove', function (e) { if (trascBarra) cerca(e); });
+  barra.addEventListener('pointerup', function () { trascBarra = false; }); barra.addEventListener('pointercancel', function () { trascBarra = false; });
+  barra.addEventListener('keydown', function (e) { if (!song.duration) return; if (e.key === 'ArrowRight') song.currentTime = Math.min(song.duration, song.currentTime + 5); if (e.key === 'ArrowLeft') song.currentTime = Math.max(0, song.currentTime - 5); });
+  if ('mediaSession' in navigator) song.addEventListener('play', function () { try { navigator.mediaSession.metadata = new MediaMetadata({ title: 'Auguri Franci', artist: 'Per i tuoi 30 anni', artwork: [{ src: 'icona.png', sizes: '512x512', type: 'image/png' }] }); } catch (_) {} });
 
   /* ---- VIDEO DI AUGURI ---- */
   var vbox = document.getElementById('vid-box'), vid = document.getElementById('video-auguri'), vplay = document.getElementById('vid-play'), vstato = document.getElementById('vid-stato'), vPronto = false;
@@ -966,9 +987,11 @@ var TAPPE = [   // anni stimati dalle foto: da confermare
   vid.addEventListener('loadedmetadata', function () { vPronto = true; var m = Math.round(vid.duration); vstato.textContent = 'Tocca per guardarlo' + (m ? ' (' + Math.floor(m / 60) + ':' + (m % 60 < 10 ? '0' : '') + m % 60 + ')' : ''); });
   vplay.addEventListener('click', function () {
     if (viaggioT) fermaViaggio();
+    if (!song.paused) song.pause();
     vbox.classList.add('avviato'); vid.controls = true;
     var pr = vid.play(); if (pr && pr.catch) pr.catch(function () { vbox.classList.remove('avviato'); vid.controls = false; vstato.textContent = 'Tocca di nuovo per guardarlo'; });
   });
+  vid.addEventListener('play', function () { if (!song.paused) song.pause(); if (viaggioT) fermaViaggio(); });
   vid.addEventListener('ended', function () { vbox.classList.remove('avviato'); vid.controls = false; vid.currentTime = 0; vstato.textContent = 'Riguardalo quando vuoi'; });
 
   /* ---- CANDELINE ---- */
