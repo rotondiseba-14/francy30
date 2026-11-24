@@ -38,12 +38,13 @@
   color-scheme: light;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
 body { background: var(--bianco); color: var(--notte); font-family: var(--sans); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
 body.chiuso { position: fixed; left: 0; right: 0; overflow: hidden; }
 html, body { overscroll-behavior-y: none; }
 button, a, input { touch-action: manipulation; -webkit-user-select: none; user-select: none; }
-.wrap { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+.wrap { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 max(22px, env(safe-area-inset-right)) 0 max(22px, env(safe-area-inset-left)); }
+.hero, .passione, .bento, .cornice, .gratta, #cursore, .tacche, #visore .scena { -webkit-touch-callout: none; }
 img { max-width: 100%; display: block; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 button:focus-visible, input:focus-visible { outline: 3px solid var(--cielo); outline-offset: 3px; }
@@ -143,6 +144,9 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
 .faccia { position: absolute; inset: 0; padding: 18px 16px 18px; display: flex; flex-direction: column; justify-content: space-between; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 .fronte { transform: rotateY(0deg); }
 .retro { transform: rotateY(180deg); background: var(--blu); color: var(--bianco); justify-content: flex-end; gap: 10px; }
+.passione .retro, .girata .fronte { visibility: hidden; transition: visibility 0s 0.09s; }
+.girata .retro, .passione .fronte { visibility: visible; transition: visibility 0s 0.09s; }
+.girata .fronte { visibility: hidden; }
 .retro-foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .retro::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,27,95,0) 35%, rgba(7,27,95,0.85)); }
 .retro .chi, .retro small { position: relative; z-index: 1; }
@@ -175,8 +179,9 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
 #cursore::-moz-range-progress { height: 3px; background: var(--bianco); }
 #cursore::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; margin-top: -13.5px; border-radius: 50%; background: var(--bianco); border: 6px solid var(--blu); box-shadow: 0 0 0 1.5px var(--bianco); }
 #cursore::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--bianco); border: 6px solid var(--blu); }
-.tacche { display: flex; justify-content: space-between; font-size: 12.5px; color: rgba(255,255,255,0.55); font-variant-numeric: tabular-nums; padding: 0 2px; }
-.tacche button { padding: 6px 0; color: inherit; }
+.tacche { display: flex; justify-content: space-between; margin-top: -6px; font-size: 12.5px; color: rgba(255,255,255,0.55); font-variant-numeric: tabular-nums; padding: 0 2px; }
+.tacche button { flex: 1; min-height: 44px; padding: 0; color: inherit; text-align: center; }
+.tacche button:first-child { text-align: left; } .tacche button:last-child { text-align: right; }
 .tacche button[aria-current="true"] { color: var(--bianco); font-weight: 700; }
 
 /* ---------- RICORDI ---------- */
@@ -304,7 +309,7 @@ a.player:active .play-btn { transform: scale(0.92); }
 .coro-ctrl { position: relative; z-index: 1; display: grid; gap: 20px; }
 .coro .play-btn svg { fill: var(--notte); }
 
-.vid-auguri { padding: 0; justify-content: flex-end; aspect-ratio: 9 / 16; width: min(100%, 440px); max-height: 82svh; }
+.vid-auguri { padding: 0; justify-content: flex-end; aspect-ratio: 9 / 16; width: min(100%, 440px, calc(82svh * 9 / 16)); }
 @media (min-width: 760px) { .vid-auguri { aspect-ratio: 9 / 16; padding: 0; } }
 .vid-auguri video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; opacity: 0; transition: opacity 0.4s; }
 .vid-auguri.avviato video { opacity: 1; }
@@ -348,6 +353,15 @@ a.player:active .play-btn { transform: scale(0.92); }
   .video strong { font-size: 38px; }
   .quadrante { grid-template-columns: 1fr 1fr; align-items: end; gap: 40px; }
   .cornice { grid-row: span 2; margin-bottom: 0; }
+}
+@media (max-width: 759px) {
+  /* foto, anno, frase e cursore stanno insieme in una schermata del telefono */
+  .quadrante { margin-top: 26px; }
+  .cornice { width: clamp(130px, calc((100svh - 400px) * 0.8), min(58vw, 260px)); margin-bottom: 22px; }
+  #anno { font-size: clamp(76px, min(30vw, 14svh), 130px); }
+  .tappa { margin-top: 14px; min-height: 2.9em; font-size: 18px; line-height: 1.42; }
+  .cursore-box { margin-top: 10px; }
+  .viaggio { margin-top: 8px; }
 }
 @media (max-width: 360px) {
   .passione { min-height: 250px; }
@@ -506,10 +520,10 @@ a.player:active .play-btn { transform: scale(0.92); }
     <h2>Chi ti vuole bene ha registrato un video per te.</h2>
     <div class="video vid-auguri non-pronta" id="vid-box">
       <canvas id="onde" aria-hidden="true"></canvas>
-      <video id="video-auguri" src="auguri.mp4" playsinline preload="metadata"></video>
+      <video id="video-auguri" src="auguri.mp4" playsinline webkit-playsinline preload="metadata"></video>
       <button class="vid-play" id="vid-play" type="button" aria-label="Guarda il video degli auguri">
         <span class="play-btn"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></span>
-        <span class="info-brano"><strong>Auguri, Franci!</strong><span id="vid-stato">Il video arriva presto</span></span>
+        <span class="info-brano"><strong>Auguri, Franci!</strong><span id="vid-stato">Tocca per guardarlo</span></span>
       </button>
     </div>
   </div>
@@ -768,7 +782,7 @@ var TAPPE = [   // anni stimati dalle foto: da confermare
   function mostra() {
     var i = +cur.value, tp = TAPPE[i], eta = tp.anno - 1996;
     cur.style.setProperty('--p', (i / (TAPPE.length - 1) * 100) + '%');
-    etaEl.textContent = eta === 0 ? 'appena nata' : eta + ' anni';
+    etaEl.textContent = eta === 0 ? 'appena nata' : eta === 1 ? '1 anno' : eta + ' anni';
     tapEl.textContent = tp.testo;
     cambiaFoto(tp.foto, i);
     Array.prototype.forEach.call(tac.children, function (b, j) { b.setAttribute('aria-current', j === i); });
@@ -832,6 +846,8 @@ var TAPPE = [   // anni stimati dalle foto: da confermare
     if (reduce) return;
     for (var i = 0; i < 22; i++) { var s = document.createElement('span'); s.className = 'scintilla'; var a = Math.random() * 6.28, d = 70 + Math.random() * 120; s.style.setProperty('--dx', Math.cos(a) * d + 'px'); s.style.setProperty('--dy', Math.sin(a) * d + 'px'); s.style.animationDelay = (Math.random() * 0.25) + 's'; if (i % 3 === 0) s.style.background = '#A8C2FF'; box.appendChild(s); setTimeout(function (el) { el.remove(); }.bind(null, s), 1600); }
   }
+
+  document.addEventListener('touchstart', function () {}, { passive: true });   // fa funzionare :active su Safari iPhone
 
   /* ---- FRECCIA GIÙ ---- */
   document.getElementById('giu').addEventListener('click', function () { var n = hero.nextElementSibling; window.scrollTo({ top: n.offsetTop, behavior: reduce ? 'auto' : 'smooth' }); });
@@ -899,6 +915,7 @@ var TAPPE = [   // anni stimati dalle foto: da confermare
   function fermaViaggio() { clearInterval(viaggioT); viaggioT = null; viaggioBtn.querySelector('span').textContent = 'Fai partire il viaggio'; viaggioBtn.querySelector('svg').innerHTML = icoPlay; }
   viaggioBtn.addEventListener('click', function () {
     if (viaggioT) { fermaViaggio(); return; }
+    var qb = document.querySelector('.quadrante').getBoundingClientRect(); if (qb.top < 0 || qb.bottom > window.innerHeight) window.scrollBy({ top: qb.top - Math.max(10, (window.innerHeight - qb.height) / 2), behavior: reduce ? 'auto' : 'smooth' });
     cur.value = 0; mostra(); viaggioBtn.querySelector('span').textContent = 'Ferma'; viaggioBtn.querySelector('svg').innerHTML = icoPausa;
     viaggioT = setInterval(function () { if (+cur.value >= TAPPE.length - 1) { fermaViaggio(); return; } cur.value = +cur.value + 1; mostra(); }, 2600);
   });
@@ -914,10 +931,12 @@ var TAPPE = [   // anni stimati dalle foto: da confermare
 
   /* ---- VIDEO DI AUGURI ---- */
   var vbox = document.getElementById('vid-box'), vid = document.getElementById('video-auguri'), vplay = document.getElementById('vid-play'), vstato = document.getElementById('vid-stato'), vPronto = false;
-  vid.addEventListener('loadedmetadata', function () { vPronto = true; vbox.classList.remove('non-pronta'); var m = Math.round(vid.duration); vstato.textContent = 'Tocca per guardarlo' + (m ? ' (' + Math.floor(m / 60) + ':' + (m % 60 < 10 ? '0' : '') + m % 60 + ')' : ''); });
+  vbox.classList.remove('non-pronta');
+  vid.addEventListener('error', function () { vbox.classList.add('non-pronta'); vstato.textContent = 'Il video non si carica: riprova tra poco'; });
+  vid.addEventListener('loadedmetadata', function () { vPronto = true; var m = Math.round(vid.duration); vstato.textContent = 'Tocca per guardarlo' + (m ? ' (' + Math.floor(m / 60) + ':' + (m % 60 < 10 ? '0' : '') + m % 60 + ')' : ''); });
   vplay.addEventListener('click', function () {
-    if (!vPronto) { vstato.textContent = 'Il video arriva presto'; vplay.animate && vplay.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }], { duration: 300 }); return; }
-    vbox.classList.add('avviato'); vid.controls = true; var pr = vid.play(); if (pr && pr.catch) pr.catch(function () {});
+    vbox.classList.add('avviato'); vid.controls = true;
+    var pr = vid.play(); if (pr && pr.catch) pr.catch(function () { vbox.classList.remove('avviato'); vid.controls = false; vstato.textContent = 'Tocca di nuovo per guardarlo'; });
   });
   vid.addEventListener('ended', function () { vbox.classList.remove('avviato'); vid.controls = false; vid.currentTime = 0; vstato.textContent = 'Riguardalo quando vuoi'; });
 
