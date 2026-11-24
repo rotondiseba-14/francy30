@@ -304,16 +304,12 @@ a.player:active .play-btn { transform: scale(0.92); }
 .coro-ctrl { position: relative; z-index: 1; display: grid; gap: 20px; }
 .coro .play-btn svg { fill: var(--notte); }
 
-.vid-auguri { padding: 0; justify-content: flex-end; aspect-ratio: 9 / 16; width: calc(100% + 44px); margin-left: -22px; max-height: none; border-radius: 0; box-shadow: none; }
-@media (min-width: 760px) { .vid-auguri { width: min(100%, 520px); margin-left: 0; border-radius: 24px; } }
+.vid-auguri { padding: 0; justify-content: flex-end; aspect-ratio: 9 / 16; width: min(100%, 440px); max-height: 82svh; }
 @media (min-width: 760px) { .vid-auguri { aspect-ratio: 9 / 16; padding: 0; } }
-.vid-auguri video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #0A28A0; }
-.vid-auguri canvas { display: none; }
+.vid-auguri video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; opacity: 0; transition: opacity 0.4s; }
 .vid-auguri.avviato video { opacity: 1; }
 .vid-auguri.avviato canvas { opacity: 0; }
-.vid-play { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 14px; padding: 0 26px calc(26px + 4%); text-align: center; color: var(--bianco); width: 100%; background: linear-gradient(180deg, rgba(7,27,95,0) 55%, rgba(7,27,95,0.75)); transition: opacity 0.3s; }
-.vid-play .play-btn { width: 84px; height: 84px; }
-.vid-play .play-btn svg { width: 30px; height: 30px; margin-left: 5px; }
+.vid-play { position: relative; z-index: 2; display: flex; align-items: center; gap: 16px; padding: 26px; text-align: left; color: var(--bianco); width: 100%; transition: opacity 0.3s; }
 .vid-auguri.avviato .vid-play { opacity: 0; pointer-events: none; }
 .vid-auguri .play-btn svg { fill: var(--notte); }
 .non-pronta .vid-play .play-btn { opacity: 0.55; }
@@ -510,7 +506,7 @@ a.player:active .play-btn { transform: scale(0.92); }
     <h2>Chi ti vuole bene ha registrato un video per te.</h2>
     <div class="video vid-auguri non-pronta" id="vid-box">
       <canvas id="onde" aria-hidden="true"></canvas>
-      <video id="video-auguri" src="auguri.mp4" poster="copertina.jpg" playsinline preload="metadata"></video>
+      <video id="video-auguri" src="auguri.mp4" playsinline preload="metadata"></video>
       <button class="vid-play" id="vid-play" type="button" aria-label="Guarda il video degli auguri">
         <span class="play-btn"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></span>
         <span class="info-brano"><strong>Auguri, Franci!</strong><span id="vid-stato">Il video arriva presto</span></span>
