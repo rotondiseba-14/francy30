@@ -266,6 +266,17 @@ h2 { font-weight: 800; font-stretch: 108%; font-size: clamp(34px, 9.4vw, 66px); 
 /* ---------- VIAGGIO NEGLI ANNI ---------- */
 .viaggio { margin-top: 18px; display: inline-flex; align-items: center; gap: 10px; border: 1.5px solid rgba(255,255,255,0.5); border-radius: 40px; padding: 11px 20px 11px 14px; font-weight: 700; font-size: 15px; color: var(--bianco); }
 .viaggio svg { width: 18px; height: 18px; fill: var(--bianco); }
+.viaggio-riga { display: flex; align-items: center; gap: 10px; margin-top: 18px; }
+.viaggio-riga .viaggio { margin-top: 0; }
+.audio-btn { width: 46px; height: 46px; flex: none; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; transition: opacity 0.3s; }
+.audio-btn svg { width: 20px; height: 20px; fill: none; stroke: var(--bianco); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.audio-btn svg path:first-child { fill: var(--bianco); }
+.audio-btn .muto { display: none; }
+.audio-btn[aria-pressed="true"] { opacity: 0.6; }
+.audio-btn[aria-pressed="true"] .muto { display: inline; }
+.audio-btn[aria-pressed="true"] .onda { display: none; }
+.suona-viaggio .audio-btn .onda { animation: onda 1.3s ease-in-out infinite; }
+@keyframes onda { 50% { opacity: 0.35; } }
 #anno.cambia { animation: cambia 0.5s var(--ease); }
 @keyframes cambia { 40% { transform: scale(1.06); color: var(--cielo); } }
 
@@ -361,7 +372,7 @@ a.player:active .play-btn { transform: scale(0.92); }
   #anno { font-size: clamp(76px, min(30vw, 14svh), 130px); }
   .tappa { margin-top: 14px; min-height: 2.9em; font-size: 18px; line-height: 1.42; }
   .cursore-box { margin-top: 10px; }
-  .viaggio { margin-top: 8px; }
+  .viaggio-riga { margin-top: 8px; }
 }
 @media (max-width: 360px) {
   .passione { min-height: 250px; }
@@ -500,7 +511,8 @@ a.player:active .play-btn { transform: scale(0.92); }
           <label for="cursore" class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Scegli una tappa</label>
           <input id="cursore" type="range" min="0" max="5" step="1" value="0">
           <div class="tacche" id="tacche"></div>
-          <button type="button" class="viaggio" id="viaggio"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg><span>Fai partire il viaggio</span></button>
+          <div class="viaggio-riga"><button type="button" class="viaggio" id="viaggio"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg><span>Fai partire il viaggio</span></button><button type="button" class="audio-btn" id="audio-btn" aria-pressed="false" aria-label="Togli la musica"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="onda" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="muto" d="M16 9l5 6M21 9l-5 6"/></svg></button></div>
+          <audio id="musica" src="viaggio.m4a" preload="auto"></audio>
         </div>
       </div>
     </div>
@@ -912,14 +924,32 @@ var TAPPE = [   // anni stimati dalle foto: da confermare
   /* ---- VIAGGIO NEGLI ANNI ---- */
   var viaggioBtn = document.getElementById('viaggio'), viaggioT = null;
   var icoPlay = '<path d="M7 4l13 8-13 8z"/>', icoPausa = '<rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/>';
-  function fermaViaggio() { clearInterval(viaggioT); viaggioT = null; viaggioBtn.querySelector('span').textContent = 'Fai partire il viaggio'; viaggioBtn.querySelector('svg').innerHTML = icoPlay; }
+  var musica = document.getElementById('musica'), audioBtn = document.getElementById('audio-btn'), sfuma = null, boxAnni = document.querySelector('.anni');
+  function spegniMusica(subito) {
+    clearInterval(sfuma); boxAnni.classList.remove('suona-viaggio');
+    if (musica.paused) return;
+    if (subito) { musica.pause(); return; }
+    var v = 1; sfuma = setInterval(function () { v -= 0.1; if (v <= 0) { clearInterval(sfuma); musica.pause(); musica.volume = 1; } else musica.volume = v; }, 40);   // su iPhone il volume non si regola: si ferma e basta
+    setTimeout(function () { if (!musica.paused) { musica.pause(); musica.volume = 1; } }, 500);
+  }
+  audioBtn.addEventListener('click', function () { var m = !musica.muted; musica.muted = m; audioBtn.setAttribute('aria-pressed', m); audioBtn.setAttribute('aria-label', m ? 'Rimetti la musica' : 'Togli la musica'); });
+  musica.addEventListener('ended', function () { boxAnni.classList.remove('suona-viaggio'); });
+  var giroV = 0;
+  function fermaViaggio(finito) { giroV++; clearInterval(viaggioT); viaggioT = null; viaggioBtn.querySelector('span').textContent = finito ? 'Rivivi il viaggio' : 'Fai partire il viaggio'; viaggioBtn.querySelector('svg').innerHTML = icoPlay; if (!finito) spegniMusica(); }
   viaggioBtn.addEventListener('click', function () {
     if (viaggioT) { fermaViaggio(); return; }
     var qb = document.querySelector('.quadrante').getBoundingClientRect(); if (qb.top < 0 || qb.bottom > window.innerHeight) window.scrollBy({ top: qb.top - Math.max(10, (window.innerHeight - qb.height) / 2), behavior: reduce ? 'auto' : 'smooth' });
     cur.value = 0; mostra(); viaggioBtn.querySelector('span').textContent = 'Ferma'; viaggioBtn.querySelector('svg').innerHTML = icoPausa;
-    viaggioT = setInterval(function () { if (+cur.value >= TAPPE.length - 1) { fermaViaggio(); return; } cur.value = +cur.value + 1; mostra(); }, 2600);
+    clearInterval(sfuma); musica.volume = 1; try { musica.currentTime = 0; } catch (_) {}
+    var mio = ++giroV, partito = false, parti = function () { if (partito || mio !== giroV) return; partito = true; clearInterval(viaggioT); viaggioT = setInterval(passoViaggio, 2600); };
+    viaggioT = setTimeout(function () {}, 0);   // segnaposto: il viaggio è in corso
+    var pr = musica.play(); boxAnni.classList.add('suona-viaggio');
+    if (pr && pr.then) { pr.then(parti, function () { boxAnni.classList.remove('suona-viaggio'); parti(); }); setTimeout(parti, 700); } else parti();
   });
+  function passoViaggio() { if (+cur.value >= TAPPE.length - 1) { fermaViaggio(true); return; } cur.value = +cur.value + 1; mostra(); }
+  document.addEventListener('visibilitychange', function () { if (document.hidden && viaggioT) fermaViaggio(); });
   cur.addEventListener('pointerdown', function () { if (viaggioT) fermaViaggio(); });
+  tac.addEventListener('click', function () { if (viaggioT) fermaViaggio(); }, true);
 
   /* ---- CANZONE (link a Suno) ---- */
   var plA = document.getElementById('player'), stA = document.getElementById('brano-stato');
@@ -935,6 +965,7 @@ var TAPPE = [   // anni stimati dalle foto: da confermare
   vid.addEventListener('error', function () { vbox.classList.add('non-pronta'); vstato.textContent = 'Il video non si carica: riprova tra poco'; });
   vid.addEventListener('loadedmetadata', function () { vPronto = true; var m = Math.round(vid.duration); vstato.textContent = 'Tocca per guardarlo' + (m ? ' (' + Math.floor(m / 60) + ':' + (m % 60 < 10 ? '0' : '') + m % 60 + ')' : ''); });
   vplay.addEventListener('click', function () {
+    if (viaggioT) fermaViaggio();
     vbox.classList.add('avviato'); vid.controls = true;
     var pr = vid.play(); if (pr && pr.catch) pr.catch(function () { vbox.classList.remove('avviato'); vid.controls = false; vstato.textContent = 'Tocca di nuovo per guardarlo'; });
   });
